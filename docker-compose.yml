@@ -1,0 +1,21 @@
+
+version: '3.5'
+
+services:
+
+  headshot_backend:
+    container_name: headshot_backend
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    # command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - '.:/usr/src/backend'
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRE_DATABASE_URL=192.168.0.121
+      - POSTGRE_DATABASE_PORT=5432
+      - POSTGRE_DATABASE_NAME=headshot
+      - POSTGRE_USER_NAME=postgres
+      - POSTGRE_USER_PASSWORD=postgres
