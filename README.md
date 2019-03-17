@@ -70,3 +70,11 @@ Python/Django + JWT auth backend
 - http://127.0.0.1:8000/api/auth/token/obtain/
 
 - http://127.0.0.1:8000/api/echo
+
+### Troubleshooting
+
+- Remove all migrations
+```
+	$ find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+	$ find . -path "*/migrations/*.pyc"  -delete
+```
