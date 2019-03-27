@@ -13,7 +13,7 @@ class Quantity(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
 
   def __str__(self):
-    return '{amount} (+ ${plus_price})'.format(
+    return '{amount} (+ {plus_price})'.format(
       amount=self.amount,
       plus_price=self.plus_price
     )

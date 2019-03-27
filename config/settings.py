@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '52.47.158.239',
     'localhost:3000',
+    '192.168.0.121',
     '127.0.0.1'
 ]
 
@@ -51,16 +52,20 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
+    'rest_framework_jwt',
     'rest_framework_swagger',
     'rest_framework_gis',
+    'corsheaders',
+    'coreapi',
+    'drf_yasg',
     'djmoney'
 )
 
 LOCAL_APPS = (
     'authentication',
     'production',
-    'quantity'
+    'quantity',
+    'headshot'
 
 )
 
