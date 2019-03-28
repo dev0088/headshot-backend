@@ -26,6 +26,7 @@ RUN apt-get install python3-pip
 RUN mkdir -p /usr/src/headshot_backend
 
 WORKDIR /usr/src/headshot_backend
+RUN mkdir -p /usr/src/headshot_backend/run
 
 COPY requirements.txt /usr/src/headshot_backend/
 
