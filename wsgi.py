@@ -19,10 +19,14 @@ https://docs.djangoproject.com/en/1.11/howto/deployment/wsgi/
 import os
 
 # for only local development env, comment. but uncomment on production server
-#site.addsitedir("/home/headshot/headshot-backend/env3/lib/python3.6/site-packages")
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+#site.addsitedir("/home/headshot/env3/lib/python3.6/site-packages")
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+
+# from django.core.wsgi import get_wsgi_application
+# from dj_static import Cling
+
+# application = Cling(get_wsgi_application())
 
 from django.core.wsgi import get_wsgi_application
-from dj_static import Cling
 
-application = Cling(get_wsgi_application())
+application = get_wsgi_application()
