@@ -31,7 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'www.headshot.com',
     'localhost',
-    '52.47.158.239',
+    '206.189.193.17',
     'localhost:3000',
     '192.168.0.121',
     '127.0.0.1'

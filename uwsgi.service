@@ -3,7 +3,7 @@ Description=uWSGI instance to serve headshotbakend
 
 [Service]
 ExecStartPre=-/bin/bash -c 'mkdir -p /run/uwsgi; chown ubuntu:www-data /run/uwsgi'
-ExecStart=/bin/bash -c 'cd /home/ubuntu/headshot/backend; source /home/ubuntu/env3/bin/activate; uwsgi --ini headshot.ini --thunder-lock'
+ExecStart=/bin/bash -c 'cd /home/headshot/headshot-backend; source /home/headshot/env3/bin/activate; uwsgi --ini headshot.ini --thunder-lock'
 
 [Install]
 WantedBy=multi-user.target
