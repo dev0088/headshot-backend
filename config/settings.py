@@ -65,8 +65,8 @@ LOCAL_APPS = (
     'authentication',
     'production',
     'quantity',
-    'headshot'
-
+    'headshot',
+    'stripe_payment'
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -206,3 +206,4 @@ JWT_AUTH = {
 
 AUTH_USER_MODEL = 'authentication.User'
 CORS_ORIGIN_ALLOW_ALL = True
+STRIPE_SECRET_KEY = 'sk_test_dpYX5y26F8UOqavs2Pu0fILL'

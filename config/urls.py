@@ -57,4 +57,5 @@ urlpatterns = [
     url(r'^api/v1/productions/', include('production.urls')),
     url(r'^api/v1/quantity/', include('quantity.urls')),
     url(r'^api/v1/headshot/', include('headshot.urls')),
+    url(r'^api/v1/stripe_payments/', include('stripe_payment.urls')),
 ]

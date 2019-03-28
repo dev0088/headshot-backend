@@ -7,7 +7,7 @@ class HeadshotCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Headshot
         fields = (
-            'id', 'file_name', 'cloudinary_image_url', 'quantity', 'status'
+            'id', 'email', 'file_name', 'cloudinary_image_url', 'quantity', 'status'
         )
 
     def create(self, validated_data):
