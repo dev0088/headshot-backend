@@ -9,14 +9,14 @@ RUN export LANGUAGE="en_US.UTF-8"
 RUN apt-get update 
 RUN apt-get -y install build-essential curl libssl-dev libffi-dev zlib1g-dev libjpeg-dev checkinstall
 RUN apt-get install imagemagick
-RUN sudo apt-get install binutils libproj-dev gdal-bin
+RUN apt-get install binutils libproj-dev gdal-bin
 
 RUN add-apt-repository ppa:libreoffice/ppa
 RUN apt-get update
 RUN apt-get install libreoffice
 
-RUN apt-get install python3-dev
-RUN apt-get install python3-pip
+# RUN apt-get install python3-dev
+# RUN apt-get install python3-pip
 # RUN sudo apt-get install python3-venv
 # RUN python3.6 -m venv env3
 # RUN source env3/bin/activate
