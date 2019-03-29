@@ -32,10 +32,14 @@ ALLOWED_HOSTS = [
     'www.headshot.com',
     'localhost',
     '206.189.193.17',
-    'localhost:3000',
+    '172.20.0.2',
+    '172.20.0.2:8080',
+    'localhost:8080',
     '192.168.0.121',
     '127.0.0.1',
-    '192.121.82.2'
+    '192.121.82.2',
+    'www.headshotprinting.net',
+    'headshotprinting.net'
 ]
 
 

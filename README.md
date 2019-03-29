@@ -65,13 +65,14 @@ Python/Django + JWT auth backend
 
 ### Run server with Docker
 ```
-docker run headshot-backend \
+docker run \
 	-e DATABASE_ENGINE=django.db.backends.postgresql_psycopg2 \
 	-e DATABASE_NAME=headshot \
 	-e DATABASE_USER_NAME=postgres \
 	-e DATABASE_PASSWORD= \
 	-e DATABASE_HOST=localhost \
-	-e DATABASE_PORT=5432
+	-e DATABASE_PORT=5432 \
+	headshot-backend 
 ```
 
 
