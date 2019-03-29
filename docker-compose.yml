@@ -4,7 +4,7 @@ version: '3.5'
 services:
 
   headshot_backend:
-    container_name: headshot_backend
+    container_name: headshot-backend
     build: 
       context: .
       dockerfile: Dockerfile
@@ -14,8 +14,9 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - POSTGRE_DATABASE_URL=192.168.0.121
-      - POSTGRE_DATABASE_PORT=5432
-      - POSTGRE_DATABASE_NAME=headshot
-      - POSTGRE_USER_NAME=postgres
-      - POSTGRE_USER_PASSWORD=postgres
+      - DATABASE_ENGINE=django.db.backends.postgresql_psycopg2
+      - DATABASE_NAME=headshot
+      - DATABASE_USER_NAME=postgres
+      - DATABASE_PASSWORD=
+      - DATABASE_HOST=localhost
+      - DATABASE_PORT=5432

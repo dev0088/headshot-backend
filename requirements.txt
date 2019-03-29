@@ -38,7 +38,7 @@ docutils==0.14
 drf-yasg==1.14.0
 drfdocs==0.0.11
 futures==3.1.1
-GDAL==2.3.1
+# GDAL==2.3.1
 h5py==2.9.0
 idna==2.7
 inflection==0.3.1
@@ -72,7 +72,7 @@ PyPDF2==1.26.0
 python-dateutil==2.8.0
 python-docx==0.8.10
 python-magic==0.4.15
-python-magic-bin==0.4.14
+# python-magic-bin==0.4.14
 pytz==2018.4
 PyYAML==3.13
 reportlab==3.5.13

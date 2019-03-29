@@ -58,10 +58,22 @@ Python/Django + JWT auth backend
 		$ sudo apt-get install binutils libproj-dev gdal-bin
 		```
 
-### Run server
+### Run server with command line
 	```
-	$ ./manage.py runserver
+	$ ./manage.py runserver 0.0.0.0:8000
 	```
+
+### Run server with Docker
+```
+docker run headshot-backend \
+	-e DATABASE_ENGINE=django.db.backends.postgresql_psycopg2 \
+	-e DATABASE_NAME=headshot \
+	-e DATABASE_USER_NAME=postgres \
+	-e DATABASE_PASSWORD= \
+	-e DATABASE_HOST=localhost \
+	-e DATABASE_PORT=5432
+```
+
 
 ### Server urls
 
