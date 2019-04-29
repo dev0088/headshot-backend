@@ -69,7 +69,7 @@ docker run \
 	-e DATABASE_ENGINE=django.db.backends.postgresql_psycopg2 \
 	-e DATABASE_NAME=headshot \
 	-e DATABASE_USER_NAME=postgres \
-	-e DATABASE_PASSWORD= \
+	-e DATABASE_PASSWORD=postgres\
 	-e DATABASE_HOST=localhost \
 	-e DATABASE_PORT=5432 \
 	headshot-backend 

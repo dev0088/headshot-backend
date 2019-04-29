@@ -150,6 +150,92 @@ class HeadshotUpload(APIView):
 
         return Response(new_serializer.data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(request_body=HeadshotUploadSerializer,
+                         responses={200: HeadshotDetailSerializer(many=False)})
+    def post(self, request, pk, format=None):
+        headshot = Headshot.objects.get(pk=pk)
+
+        #  # Save temp file
+        # f = request.data['file']
+
+        # file_name = secure_filename(request.data['fileName'])
+        # file_id = request.data['fileID']
+        # tmp_file_dir = 'resumes/{talent_id}/'.format(
+        #         talent_id = talent.id
+        #     )
+        # tmp_file_path = '{tmp_file_dir}/{file_name}'.format(
+        #         tmp_file_dir = tmp_file_dir,
+        #         file_name = file_name
+        #     )
+        # stored_path = default_storage.save(tmp_file_path, ContentFile(f.read()))
+
+        # # Generate preview file in image file
+        # media_root = settings.MEDIA_ROOT
+        # full_dir = os.path.join(media_root, tmp_file_dir)
+        # full_path = os.path.join(media_root, stored_path)
+
+        # # Get extension
+        # _, file_extension = os.path.splitext(stored_path)
+        # if sys.platform == 'darwin':
+        #     if file_extension == '.txt':
+        #         preview = self.convert_text_to_png(full_path)
+        #     elif file_extension == '.doc':
+        #         preview = self.convert_doc_to_pdf(full_path)
+        #         preview = self.convert_pdf_to_image(full_dir, preview)
+        #     elif file_extension == '.docx':
+        #         preview = self.convert_docx_to_pdf(full_path)
+        #         preview = self.convert_pdf_to_image(full_dir, preview)
+        #     elif file_extension == '.pdf':
+        #         preview = self.convert_pdf_to_image(full_dir, full_path)
+        # else:
+        #     preview = self.convert_pdf_to_image(full_dir, full_path)
+
+        # tmp = preview.split('/')
+        # preview_file_name = tmp[len(tmp) - 1]
+        # preview_file_path = os.path.join('media', tmp_file_dir, preview_file_name)
+        
+        # # Save generated preview image file path
+        # data = {}
+        # obj = TalentResume.objects.get(id=int(file_id))
+        # obj.uploaded = True
+        # obj.preview_path = preview_file_path
+        # obj.save()
+        # data['id'] = obj.id
+        # data['preview_path'] = stored_path
+        # return Response(data, status=status.HTTP_200_OK)
+
+        # if serializer.is_valid():
+        if 'file' not in request.data:
+            print("Empty content")
+            return Response({'error': 'Empty content'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not headshot:
+            return Response({'error': 'Not found the headshot'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Save temp file
+        f = request.data['file']
+        # file_name = request.data['fileName']
+        # Upload image from frontend to cloudinary
+        cloudinary.config( 
+            cloud_name = "dnxe2ejbx", 
+            api_key = "531987746948979", 
+            api_secret = "mAG_-w5YQXBqUrvd5umM42QCyvI" 
+        )
+
+        res = cloudinary.uploader.upload(f)
+
+        headshot.public_id = res['public_id']
+        headshot.signature = res['signature']
+        headshot.image_format = res['format']
+        headshot.width = res['width']
+        headshot.height = res['height']
+        headshot.cloudinary_image_url = res['url']
+        headshot.cloudinary_image_secure_url = res['secure_url']
+        headshot.status = 'Required'
+        headshot.save()
+        new_serializer = HeadshotSerializer(headshot)
+
+        return Response(new_serializer.data, status=status.HTTP_200_OK)
 
 class HeadshotPayment(APIView):
     """

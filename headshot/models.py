@@ -16,6 +16,7 @@ STATUS_CHOICES = (
     ('Completed', 'Completed'),
 )
 
+
 class Headshot(models.Model):
   email = models.CharField(max_length = 255, blank=True,  default='')
   file_name = models.CharField(max_length = 255)
