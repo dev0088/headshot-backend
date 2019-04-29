@@ -115,9 +115,11 @@ DATABASES = {
         'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.postgresql_psycopg2'),
         'NAME': os.environ.get('DATABASE_NAME', 'headshot'),
         'USER': os.environ.get('DATABASE_USER_NAME', 'postgres'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
-        'HOST': os.environ.get('DATABASE_HOST', 'localhost'),
-        'PORT': os.environ.get('DATABASE_PORT', ''),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'postgres'),
+        'HOST': os.environ.get('DATABASE_HOST', '192.168.0.121'),
+        'PORT': os.environ.get('DATABASE_PORT', '5432'),
+        #'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'postgres'),
+        # 'HOST': os.environ.get('DATABASE_HOST', '206.189.193.17'),
     }
 }
 

@@ -19,14 +19,15 @@ ENV PYTHONUNBUFFERED 1
 
 # Setup Ubuntu linux
 RUN export LANGUAGE="en_US.UTF-8"
-RUN apt-get update 
-RUN apt-get -y install build-essential curl libssl-dev libffi-dev zlib1g-dev libjpeg-dev checkinstall
+RUN apt-get update && apt-get install -y --no-install-recommends
+RUN apt-get -y install build-essential curl libssl-dev libffi-dev zlib1g-dev libjpeg-dev checkinstall 
 RUN apt-get install imagemagick
 # RUN echo Y | apt-get install gdal-bin
 RUN apt-get -y install binutils libproj-dev gdal-bin
 # RUN add-apt-repository ppa:libreoffice/ppa
 RUN apt-get update
 RUN apt-get -y install libreoffice
+RUN apt-get -y install postgresql-contrib
 
 ##############################################
 # RUN apt-get install python3-dev
@@ -60,10 +61,10 @@ COPY . /usr/src/headshot_backend/
 RUN ls /usr/src/headshot_backend 
 
 RUN python /usr/src/headshot_backend/manage.py collectstatic --noinput
-# RUN python /usr/src/headshot_backend/manage.py makemigrations 
-# RUN python /usr/src/headshot_backend/manage.py migrate
+# RUN python manage.py makemigrations 
+# RUN python manage.py migrate
 
 EXPOSE 8000
 
-# ENTRYPOINT [ "python" ]
-CMD [./start.sh]
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["./start.sh"]

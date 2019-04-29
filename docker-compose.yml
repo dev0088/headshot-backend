@@ -14,9 +14,9 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_ENGINE=django.db.backends.postgresql_psycopg2
+      - DATABASE_ENGINE='django.db.backends.postgresql_psycopg2'
       - DATABASE_NAME=headshot
       - DATABASE_USER_NAME=postgres
-      - DATABASE_PASSWORD=
-      - DATABASE_HOST=localhost
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_HOST=192.168.0.121
       - DATABASE_PORT=5432
