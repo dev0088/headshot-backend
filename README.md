@@ -65,15 +65,20 @@ Python/Django + JWT auth backend
 
 ### Run server with Docker
 ```
-docker run \
+$ docker network create --subnet=172.17.0.0/16 headshotnet
+
+$ docker run -d \
 	-e DATABASE_ENGINE=django.db.backends.postgresql_psycopg2 \
 	-e DATABASE_NAME=headshot \
 	-e DATABASE_USER_NAME=postgres \
 	-e DATABASE_PASSWORD=postgres \
-	-e DATABASE_HOST=192.168.0.121 \
+	-e DATABASE_HOST=206.189.193.17 \
 	-e DATABASE_PORT=5432 \
 	-p 8000:8000 \
-	headshot-backend
+	--net headshotnet \
+	--ip 172.20.0.2 \
+	--name headshot-backend \
+	valeriia333/headshot-backend
 ```
 
 
