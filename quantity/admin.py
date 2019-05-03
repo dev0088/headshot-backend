@@ -17,7 +17,7 @@ class QuantityAdmin(admin.ModelAdmin):
 
     def production_display(self, obj):
           return '{production_name}'.format(
-              production_name=obj.production.name
+              production_name=obj.production.name if obj.production else ''
           )
 
     production_display.short_description = 'Production'

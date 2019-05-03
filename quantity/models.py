@@ -6,7 +6,7 @@ from djmoney.models.fields import MoneyField
 from production.models import Production
 
 class Quantity(models.Model):
-  production = models.ForeignKey(Production, related_name='production_quantities', on_delete=models.SET_DEFAULT, null=True, blank=True, default=None)
+  production = models.ForeignKey(Production, related_name='production_quantities', on_delete=models.CASCADE, blank=False)
   amount = models.IntegerField(blank=False, default=1)
   plus_price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD')
   description = models.TextField(blank=True)
