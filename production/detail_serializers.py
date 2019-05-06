@@ -14,7 +14,8 @@ class ProductionDetailSerializer(serializers.ModelSerializer):
             'id', 'name', 'title', 'description', 
             'gallery_image', 'gallery_image_external_url', 
             'overview_image', 'overview_image_external_url', 
-            'more_about', 
+            'more_about',
+            'price',
             'created_at',
             'production_quantities'
         )

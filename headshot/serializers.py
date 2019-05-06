@@ -19,6 +19,12 @@ class HeadshotSerializer(serializers.ModelSerializer):
             'height', 
             'public_id', 
             'signature',
+            'doc_public_id',
+            'doc_signature',
+            'doc_format',
+            'doc_size',
+            'doc_url',
+            'doc_secure_url',
             'updated_at', 
             'created_at'
         )

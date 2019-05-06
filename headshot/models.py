@@ -29,6 +29,12 @@ class Headshot(models.Model):
   image_format = models.CharField(max_length = 10, default='', blank=True)
   width = models.IntegerField(default=400, blank=True)
   height = models.IntegerField(default=500, blank=True)
+  doc_public_id = models.CharField(max_length = 255, default='', blank=True)
+  doc_signature = models.CharField(max_length = 255, default='', blank=True)
+  doc_format = models.CharField(max_length = 20, default='', blank=True)
+  doc_size = models.IntegerField(default=0, blank=True)
+  doc_url = models.URLField(blank=True)
+  doc_secure_url = models.URLField(blank=True)
   updated_at = models.DateTimeField(auto_now=True)
   created_at = models.DateTimeField(auto_now_add=True)
 
