@@ -118,8 +118,6 @@ DATABASES = {
         'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'postgres'),
         'HOST': os.environ.get('DATABASE_HOST', '192.168.0.121'),
         'PORT': os.environ.get('DATABASE_PORT', '5432'),
-        #'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'postgres'),
-        # 'HOST': os.environ.get('DATABASE_HOST', '206.189.193.17'),
     }
 }
 
@@ -177,6 +175,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication'
+    ),
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
+    ],
 }
 
 JWT_AUTH = {
