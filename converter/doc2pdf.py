@@ -6,13 +6,15 @@
 # This program uses libreoffice and soffice executable file of the libreoffice library.
 # libreoffice for Ubuntu or Cent OS
 # soffice for Mac OS
-
+import os
 import sys
 import subprocess
 import re
 
 def docx_to_pdf(source, timeout=None):
-    args = [libreoffice_exec(), '--headless', '--convert-to', 'pdf', source]
+    outdir = os.path.dirname(os.path.abspath(source))
+    
+    args = [libreoffice_exec(), '--headless', '--convert-to', 'pdf', '--outdir', outdir, source]
 
     process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=timeout)
     filename = re.search('-> (.*?) using filter', process.stdout.decode())

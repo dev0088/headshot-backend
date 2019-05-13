@@ -108,6 +108,7 @@ $ docker run -d \
 	$ brew cask install inkscape
 	$ brew install xorg-server
 	$ ln -s /opt/local/bin/inkscape /Applications/Inkscape
+	$ brew install unoconv
 
 	In the case Mac OS, 
 

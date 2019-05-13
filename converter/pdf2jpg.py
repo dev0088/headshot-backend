@@ -11,14 +11,14 @@ def main():
 
 
 def pdf_to_image(cach_dir_path, pdf_file_path, font_path=None):
+    print ('==== cach_dir_path: ', cach_dir_path, )
+    print ('==== pdf_file_path: ', pdf_file_path, )
     """Convert text file to a grayscale image with black characters on a white background.
-
     arguments:
     text_path - the content of this file will be converted to an image
     font_path - path to a font file (for example impact.ttf)
     """
     preview_manager = PreviewManager(cach_dir_path, create_folder=True)
-    print ('==== cach_dir_path: ', cach_dir_path)
     preview = preview_manager.get_jpeg_preview(pdf_file_path, height=HEIGHT, width=WIDTH)
     return preview
 

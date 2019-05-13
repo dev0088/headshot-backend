@@ -242,9 +242,17 @@ class HeadshotUploadDoc(APIView):
         )
 
         # Convert doc file to preview image and Upload it to Cloudinary
-
-        file_name = 'headshot_{id}_{file_name}'.format(id=headshot.id, file_name='temp.pdf') #res['url'].split('/')
-        # file_name = file_name[len(file_name) - 1]
+        file_ext = ''
+        if file_type == 'text/plain':
+            file_ext = 'txt'
+        elif file_type == 'application/pdf':
+            file_ext = 'pdf'
+        elif file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+            file_ext = 'docx'
+        elif file_type == 'application/msword':
+            file_ext = 'doc'
+        
+        file_name = 'headshot_{id}.{ext}'.format(id=headshot.id, ext=file_ext) 
         tmp_file_dir = 'temp'
         tmp_file_path = '{tmp_file_dir}/{file_name}'.format(
                 tmp_file_dir = tmp_file_dir,
@@ -254,7 +262,7 @@ class HeadshotUploadDoc(APIView):
         
         # Generate preview file in image file
         media_root = settings.MEDIA_ROOT
-        full_dir = os.path.join(media_root, tmp_file_dir)
+        full_dir = os.path.join(media_root, tmp_file_dir) + '/'
         full_path = os.path.join(media_root, stored_path)
         print('===== : ', file_name, tmp_file_path, full_dir, full_path )
 
@@ -265,9 +273,11 @@ class HeadshotUploadDoc(APIView):
                 preview = self.convert_text_to_png(full_path)
             elif file_extension == '.doc':
                 preview = self.convert_doc_to_pdf(full_path)
+                print ('==== doc: preview: ', preview)
                 preview = self.convert_pdf_to_image(full_dir, preview)
             elif file_extension == '.docx':
                 preview = self.convert_docx_to_pdf(full_path)
+                print ('==== docx: preview: ', preview)
                 preview = self.convert_pdf_to_image(full_dir, preview)
             elif file_extension == '.pdf':
                 preview = self.convert_pdf_to_image(full_dir, full_path)
@@ -281,7 +291,7 @@ class HeadshotUploadDoc(APIView):
 
         # Upload doc file to Cloudinary
         res = cloudinary.uploader.upload(
-            file_data, 
+            full_path, 
             folder = 'Docs',
             resource_type = 'raw',
             allowed_formats='txt, pdf, doc, docx'
@@ -294,7 +304,7 @@ class HeadshotUploadDoc(APIView):
         headshot.doc_url = res['url']
         headshot.doc_secure_url = res['secure_url']
         headshot.doc_preview_url = res_preview['url']
-        headhost.doc_preview_secure_url = res_preview['secure_url']
+        headshot.doc_preview_secure_url = res_preview['secure_url']
         
         headshot.status = 'Required'
         headshot.save()
