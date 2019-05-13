@@ -33,7 +33,7 @@ class HeadshotAdmin(admin.ModelAdmin):
       'doc_url', 'doc_secure_url',
       'doc_format',
       'doc_public_id', 'doc_signature',
-
+      'doc_preview_url', 'doc_preview_secure_url'
     )
 
     readonly_fields = (

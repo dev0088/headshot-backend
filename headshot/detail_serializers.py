@@ -29,6 +29,8 @@ class HeadshotDetailSerializer(serializers.ModelSerializer):
             'doc_size',
             'doc_url',
             'doc_secure_url',
+            'doc_preview_url',
+            'doc_preview_secure_url',
             'updated_at', 
             'created_at'
         )

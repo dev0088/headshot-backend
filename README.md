@@ -98,3 +98,31 @@ $ docker run -d \
 	$ find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 	$ find . -path "*/migrations/*.pyc"  -delete
 ```
+
+### Additional 
+
+- Rendering doc file to image for preview-generate package
+```
+	$ brew upgrade glibmm
+	$ brew cask install xquartz
+	$ brew cask install inkscape
+	$ brew install xorg-server
+	$ ln -s /opt/local/bin/inkscape /Applications/Inkscape
+	$ brew install unoconv
+
+	In the case Mac OS, 
+
+	$ brew install freetype 
+	$ brew install imagemagick
+	$ brew install libmagic
+	$ brew install ghostscript
+
+	$ brew install imagemagick@6
+	$ ln -s /usr/local/Cellar/imagemagick@6/6.9.10-9/lib/libMagickWand-6.Q16.dylib /usr/local/lib/libMagickWand.dylib
+
+	In the case Ubuntu,
+	$ apt-get install zlib1g-dev libjpeg-dev
+
+	In the case CentOS
+	$ yum install zlib1g-dev libjpeg-dev
+```
