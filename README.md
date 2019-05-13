@@ -106,7 +106,6 @@ $ docker run -d \
 	$ brew upgrade glibmm
 	$ brew cask install xquartz
 	$ brew cask install inkscape
-	<!-- $ brew install inkscape -->
 	$ brew install xorg-server
 	$ ln -s /opt/local/bin/inkscape /Applications/Inkscape
 
