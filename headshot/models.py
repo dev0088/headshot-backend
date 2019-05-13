@@ -35,6 +35,8 @@ class Headshot(models.Model):
   doc_size = models.IntegerField(default=0, blank=True)
   doc_url = models.URLField(blank=True)
   doc_secure_url = models.URLField(blank=True)
+  doc_preview_url = models.URLField(blank=True)
+  doc_preview_secure_url = models.URLField(blank=True)
   updated_at = models.DateTimeField(auto_now=True)
   created_at = models.DateTimeField(auto_now_add=True)
 

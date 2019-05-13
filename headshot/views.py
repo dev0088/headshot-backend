@@ -32,6 +32,9 @@ from headshot.detail_serializers import HeadshotDetailSerializer
 from headshot.upload_serializers import HeadshotUploadSerializer
 from headshot.payment_serializers import HeadshotPaymentSerializer
 from stripe_payment.models import StripePayment
+from converter.text2pdf import text_to_image
+from converter.pdf2jpg import pdf_to_image
+from converter.doc2pdf import doc_to_pdf, docx_to_pdf
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.log = 'info'  # or 'debug'
@@ -88,8 +91,10 @@ class HeadshotCreate(APIView):
     Get a new headshot
     """
 
-    @swagger_auto_schema(request_body=HeadshotCreateSerializer,
-                         responses={200: HeadshotSerializer(many=False)})
+    @swagger_auto_schema(
+        request_body=HeadshotCreateSerializer,
+        responses={200: HeadshotSerializer(many=False)}
+    )
     def post(self, request, format=None):
         serializer = HeadshotCreateSerializer(data=request.data)
 
@@ -107,8 +112,10 @@ class HeadshotUploadImage(APIView):
     """
     parser_class = ( MultiPartParser, FormParser)
 
-    @swagger_auto_schema(request_body=HeadshotUploadSerializer,
-                         responses={200: HeadshotDetailSerializer(many=False)})
+    @swagger_auto_schema(
+        request_body=HeadshotUploadSerializer,
+        responses={200: HeadshotDetailSerializer(many=False)}
+    )
     def put(self, request, pk, format=None):
         headshot = Headshot.objects.get(pk=pk)
 
@@ -147,8 +154,10 @@ class HeadshotUploadImage(APIView):
 
         return Response(new_serializer.data, status=status.HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=HeadshotUploadSerializer,
-                         responses={200: HeadshotDetailSerializer(many=False)})
+    @swagger_auto_schema(
+        request_body=HeadshotUploadSerializer,
+        responses={200: HeadshotDetailSerializer(many=False)}
+    )
     def post(self, request, pk, format=None):
         headshot = Headshot.objects.get(pk=pk)
 
@@ -188,7 +197,28 @@ class HeadshotUploadImage(APIView):
 
 class HeadshotUploadDoc(APIView):
 
-    parser_class = ( MultiPartParser, FormParser)
+    parser_class = (MultiPartParser, FormParser)
+
+    def convert_pdf_to_image(self, cach_dir_path, file_path):
+        return pdf_to_image(cach_dir_path, file_path)
+
+    def convert_text_to_png(self, file_path):
+        file_name, file_extension = os.path.splitext(file_path)
+        image_file_name = '{file_name}{extension}'.format(
+                file_name = file_name,
+                extension = '.png'
+            )
+        image = text_to_image(file_path)
+        image.save(image_file_name)
+        return image_file_name
+
+    def convert_doc_to_pdf(self, file_path):
+        preview = doc_to_pdf(file_path)
+        return preview
+
+    def convert_docx_to_pdf(self, file_path):
+        preview = docx_to_pdf(file_path)
+        return preview
 
     @swagger_auto_schema(request_body=HeadshotUploadSerializer,
                          responses={200: HeadshotDetailSerializer(many=False)})
@@ -211,6 +241,45 @@ class HeadshotUploadDoc(APIView):
             api_secret = "mAG_-w5YQXBqUrvd5umM42QCyvI" 
         )
 
+        # Convert doc file to preview image and Upload it to Cloudinary
+
+        file_name = 'headshot_{id}_{file_name}'.format(id=headshot.id, file_name='temp.pdf') #res['url'].split('/')
+        # file_name = file_name[len(file_name) - 1]
+        tmp_file_dir = 'temp'
+        tmp_file_path = '{tmp_file_dir}/{file_name}'.format(
+                tmp_file_dir = tmp_file_dir,
+                file_name = file_name
+            )
+        stored_path = default_storage.save(tmp_file_path, ContentFile(file_data.read()))
+        
+        # Generate preview file in image file
+        media_root = settings.MEDIA_ROOT
+        full_dir = os.path.join(media_root, tmp_file_dir)
+        full_path = os.path.join(media_root, stored_path)
+        print('===== : ', file_name, tmp_file_path, full_dir, full_path )
+
+        # Get extension
+        _, file_extension = os.path.splitext(stored_path)
+        if sys.platform == 'darwin':
+            if file_extension == '.txt':
+                preview = self.convert_text_to_png(full_path)
+            elif file_extension == '.doc':
+                preview = self.convert_doc_to_pdf(full_path)
+                preview = self.convert_pdf_to_image(full_dir, preview)
+            elif file_extension == '.docx':
+                preview = self.convert_docx_to_pdf(full_path)
+                preview = self.convert_pdf_to_image(full_dir, preview)
+            elif file_extension == '.pdf':
+                preview = self.convert_pdf_to_image(full_dir, full_path)
+        else:
+            preview = self.convert_pdf_to_image(full_dir, full_path)
+
+        tmp = preview.split('/')
+        preview_file_name = tmp[len(tmp) - 1]
+        preview_file_path = os.path.join('media', tmp_file_dir, preview_file_name)
+        res_preview = cloudinary.uploader.upload(preview_file_path, folder = 'Docs')
+
+        # Upload doc file to Cloudinary
         res = cloudinary.uploader.upload(
             file_data, 
             folder = 'Docs',
@@ -218,11 +287,14 @@ class HeadshotUploadDoc(APIView):
             allowed_formats='txt, pdf, doc, docx'
         )
 
+        # Save every info into database
         headshot.doc_public_id = res['public_id']
         headshot.doc_signature = res['signature']
         headshot.doc_format = file_type
         headshot.doc_url = res['url']
         headshot.doc_secure_url = res['secure_url']
+        headshot.doc_preview_url = res_preview['url']
+        headhost.doc_preview_secure_url = res_preview['secure_url']
         
         headshot.status = 'Required'
         headshot.save()

@@ -20,7 +20,7 @@ ENV PYTHONUNBUFFERED 1
 # Setup Ubuntu linux
 RUN export LANGUAGE="en_US.UTF-8"
 RUN apt-get update && apt-get install -y --no-install-recommends
-RUN apt-get -y install build-essential curl libssl-dev libffi-dev zlib1g-dev libjpeg-dev checkinstall 
+RUN apt-get -y install build-essential curl libssl-dev libffi-dev zlib1g-dev libjpeg-dev checkinstall python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf
 RUN apt-get install imagemagick
 # RUN echo Y | apt-get install gdal-bin
 RUN apt-get -y install binutils libproj-dev gdal-bin
@@ -38,6 +38,13 @@ RUN apt-get -y install postgresql-contrib
 # RUN nano /etc/systemd/system/uwsgi.service
 ##############################################
 
+# Exiftool
+RUN wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
+RUN gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -
+RUN cd Image-ExifTool-11.11
+RUN perl Makefile.PL
+RUN make install
+
 RUN mkdir -p /usr/src/headshot_backend
 
 WORKDIR /usr/src/headshot_backend
@@ -46,7 +53,6 @@ RUN mkdir -p /usr/src/headshot_backend/run
 COPY requirements.txt /usr/src/headshot_backend/
 
 RUN pip install -r /usr/src/headshot_backend/requirements.txt 
-
 
 RUN mkdir -p /usr/src/headshot_backend/static_backend
 RUN mkdir -p /usr/src/headshot_backend/static_backend/js
@@ -58,7 +64,7 @@ RUN mkdir -p /usr/src/headshot_backend/static_backend/rest_framework_swagger
 
 COPY . /usr/src/headshot_backend/
 
-RUN ls /usr/src/headshot_backend 
+RUN ls /usr/src/headshot_backend
 
 RUN python /usr/src/headshot_backend/manage.py collectstatic --noinput
 # RUN python manage.py makemigrations 
