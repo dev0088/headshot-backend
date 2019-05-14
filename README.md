@@ -76,6 +76,12 @@ Python/Django + JWT auth backend
 - Run these commands on production server
 
 ```
+$ docker stop headshot-backend
+$ echo y | docker container prune
+$ echo y | docker image prune
+
+$ docker pull valeriia333/headshot-backend
+
 $ docker network create --subnet=172.17.0.0/16 headshotnet
 
 $ docker run -d \
