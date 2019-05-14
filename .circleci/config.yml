@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.1
+      - image: python:3.6
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -15,6 +15,7 @@ jobs:
       - checkout
       - run: 
           name: install dependency packages
+          command: |
             export LANGUAGE="en_US.UTF-8"
             apt-get update
             apt-get update && apt-get install -y --no-install-recommends
@@ -68,7 +69,7 @@ jobs:
             ssh -o StrictHostKeyChecking=no $TARGET_SERVER_USER_NAME@$TARGET_SERVER_ADDRESS "/bin/bash ${DEPLOYMENT_SCRIPT_FILE_PATH}"
 
 workflows:
-  version: 2.1
+  version: 2
   build-and-deploy:
     jobs:
       - build
