@@ -20,7 +20,7 @@ ENV PYTHONUNBUFFERED 1
 # Setup Ubuntu linux
 RUN export LANGUAGE="en_US.UTF-8"
 RUN apt-get update && apt-get install -y --no-install-recommends
-RUN apt-get -y install build-essential curl libssl-dev libffi-dev zlib1g-dev libjpeg-dev checkinstall python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf
+RUN apt-get -y install build-essential curl libssl-dev libffi-dev zlib1g-dev libjpeg-dev checkinstall python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf libimage-exiftool-perl
 RUN apt-get install imagemagick
 # RUN echo Y | apt-get install gdal-bin
 RUN apt-get -y install binutils libproj-dev gdal-bin
@@ -39,11 +39,16 @@ RUN apt-get -y install postgresql-contrib
 ##############################################
 
 # Exiftool
-RUN wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
-RUN gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -
-RUN cd Image-ExifTool-11.11
-RUN perl Makefile.PL
-RUN make install
+# RUN wget https://sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-11.11.tar.gz
+# RUN mkdir -p /usr/src/image_exiftool
+# RUN tar -zxvf Image-ExifTool-11.11.tar.gz -C /usr/src/image_exiftool
+# RUN rm Image-ExifTool-11.11.tar.gz
+# # RUN gzip -dc Image-ExifTool-11.11.tar.gz | tar -xf -
+# RUN cd /usr/src/image_exiftool
+# RUN pwd
+# RUN ls /usr/src/image_exiftool
+# RUN perl Makefile.PL
+# RUN make install
 
 RUN mkdir -p /usr/src/headshot_backend
 
