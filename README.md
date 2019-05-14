@@ -72,6 +72,9 @@ Python/Django + JWT auth backend
 - add more quentities than 3
 
 ### Deploy server with Docker
+
+- Run these commands on production server
+
 ```
 $ docker network create --subnet=172.17.0.0/16 headshotnet
 
@@ -89,7 +92,46 @@ $ docker run -d \
 	valeriia333/headshot-backend
 ```
 
+- Run docker from docker hub on local
+```
+$ docker run -d \
+	-e DATABASE_ENGINE=django.db.backends.postgresql_psycopg2 \
+	-e DATABASE_NAME=headshot \
+	-e DATABASE_USER_NAME=postgres \
+	-e DATABASE_PASSWORD=postgres \
+	-e DATABASE_HOST=192.168.0.121 \
+	-e DATABASE_PORT=5432 \
+	-p 8000:8000 \
+	--name headshot-backend \
+	valeriia333/headshot-backend
+```
 
+- Build docker and run it on local
+
+```
+$ docker build . -t headshot-backend
+
+$ docker run -d \
+	-e DATABASE_ENGINE=django.db.backends.postgresql_psycopg2 \
+	-e DATABASE_NAME=headshot \
+	-e DATABASE_USER_NAME=postgres \
+	-e DATABASE_PASSWORD=postgres \
+	-e DATABASE_HOST=192.168.0.121 \
+	-e DATABASE_PORT=5432 \
+	-p 8000:8000 \
+	--name headshot-backend \
+	headshot-backend
+
+If you want to stop docker and rebuild / restart it, run these commands.
+
+$ docker stop headshot-backend
+$ docker rm headshot-backend
+$ echo y | docker container prune
+$ echo y | docker image prune
+
+run above commands for building and running 
+
+```
 
 ### Troubleshooting
 
