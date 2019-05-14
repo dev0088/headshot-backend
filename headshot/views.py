@@ -287,8 +287,9 @@ class HeadshotUploadDoc(APIView):
         tmp = preview.split('/')
         preview_file_name = tmp[len(tmp) - 1]
         preview_file_path = os.path.join('media', tmp_file_dir, preview_file_name)
+        # Upload doc preview file to Cloudinary
         res_preview = cloudinary.uploader.upload(preview_file_path, folder = 'Docs')
-
+        print ('==== res_preview: ', res_preview)
         # Upload doc file to Cloudinary
         res = cloudinary.uploader.upload(
             full_path, 

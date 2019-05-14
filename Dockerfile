@@ -69,7 +69,7 @@ RUN mkdir -p /usr/src/headshot_backend/static_backend/rest_framework_swagger
 
 COPY . /usr/src/headshot_backend/
 
-RUN ls /usr/src/headshot_backend
+# RUN ls /usr/src/headshot_backend
 
 RUN python /usr/src/headshot_backend/manage.py collectstatic --noinput
 # RUN python manage.py makemigrations 
