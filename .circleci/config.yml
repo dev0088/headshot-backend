@@ -1,0 +1,80 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.1
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run: 
+          name: install dependency packages
+            export LANGUAGE="en_US.UTF-8"
+            apt-get update
+            apt-get update && apt-get install -y --no-install-recommends
+            apt-get -y install build-essential curl libssl-dev libffi-dev zlib1g-dev libjpeg-dev checkinstall python3-pythonmagick inkscape xvfb poppler-utils libfile-mimeinfo-perl qpdf libimage-exiftool-perl
+            apt-get install imagemagick
+            apt-get -y install binutils libproj-dev gdal-bin
+            apt-get update
+            apt-get -y install libreoffice
+            apt-get -y install postgresql-contrib
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-      
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      # run tests!
+      # - run:
+      #     name: run tests
+      #     command: |
+      #       . venv/bin/activate
+      #       python manage.py test
+
+      # - store_artifacts:
+      #     path: test-reports
+      #     destination: test-reports
+
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - $TARGET_SERVER_SSH_FINGERPRINT
+      - run:
+          name: Deploy app from docker repository to server
+          command: |
+            ssh -o StrictHostKeyChecking=no $TARGET_SERVER_USER_NAME@$TARGET_SERVER_ADDRESS "/bin/bash ${DEPLOYMENT_SCRIPT_FILE_PATH}"
+
+workflows:
+  version: 2.1
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
