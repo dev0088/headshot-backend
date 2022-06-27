@@ -80,7 +80,7 @@ python-docx==0.8.10
 python-magic==0.4.15
 pytz==2018.4
 PyYAML==3.13
-reportlab==3.5.13
+reportlab==3.5.55
 requests==2.21.0
 rsa==3.4.2
 ruamel.yaml==0.15.89
